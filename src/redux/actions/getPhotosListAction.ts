@@ -5,11 +5,11 @@ import {Dispatch} from 'redux';
 export type DispatchFunction = (dispatch: Dispatch) => void;
 
 export const getPhotosList =
-  (pageNumber: number = 1): DispatchFunction =>
+  (listNumber: number = 1): DispatchFunction =>
   async (dispatch): Promise<void> => {
     try {
       const result = await axios.get(
-        `https://api.unsplash.com/photos?page=${pageNumber}`,
+        `https://api.unsplash.com/photos?page=${listNumber}`,
         {
           headers: {
             Authorization:
