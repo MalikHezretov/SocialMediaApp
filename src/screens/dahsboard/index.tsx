@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {FlatList, ListRenderItem, SafeAreaView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CardComponent from '../../components/cardComponent';
+import LikeComponent from '../../components/likeComponent';
 import {IPhotoModel} from '../../models/photoModel';
 import {getPhotosList} from '../../redux/actions/getPhotosListAction';
 import {AppState} from '../../redux/reducers';
@@ -18,7 +19,12 @@ const Dashboard = (): JSX.Element => {
   }, [dispatch]);
 
   const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
-    return <CardComponent imageUrl={item.urls.regular} />;
+    return (
+      <>
+        <CardComponent imageUrl={item.urls.regular} />
+        <LikeComponent numberOfLikes={item.likes} />
+      </>
+    );
   };
 
   const renderFlatList = () => (
