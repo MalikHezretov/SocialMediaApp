@@ -17,7 +17,7 @@ const photosListReducer = (
     case GET_PHOTOS_LIST:
       return {
         ...state,
-        photosList: [...action.payload],
+        photosList: action.payload,
       };
     default:
       return state;
