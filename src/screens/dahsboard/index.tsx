@@ -1,18 +1,38 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux';
+import {FlatList, ListRenderItem, SafeAreaView} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import CardComponent from '../../components/cardComponent';
+import {IPhotoModel} from '../../models/photoModel';
 import {getPhotosList} from '../../redux/actions/getPhotosListAction';
 import {AppState} from '../../redux/reducers';
+import styles from './styles';
 
 const Dashboard = (): JSX.Element => {
-  // @TODO: fix dispatch type
   const dispatch: any = useDispatch();
-  const photosList = useSelector((state: AppState) => state.photosList);
-  console.log('photosList: ', photosList);
+  const photosList = useSelector(
+    (state: AppState) => state.photosList.photosList,
+  );
+
   useEffect(() => {
     dispatch(getPhotosList());
   }, [dispatch]);
-  return <></>;
+
+  const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
+    return <CardComponent imageUrl={item.urls.regular} />;
+  };
+
+  const renderFlatList = () => (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={photosList}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+    </SafeAreaView>
+  );
+
+  return renderFlatList();
 };
 
 export default Dashboard;
