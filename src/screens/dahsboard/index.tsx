@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, ListRenderItem, SafeAreaView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CardComponent from '../../components/cardComponent';
@@ -14,24 +14,17 @@ const wait = (timeout: number) => {
 
 const Dashboard = (): JSX.Element => {
   const dispatch: any = useDispatch();
-  const photosList = useSelector(
-    (state: AppState) => state.photosList.photosList,
-  );
-  const [refreshing, setRefreshing] = React.useState(false);
+  const photosList = useSelector(({state}: AppState) => state.photosList);
+  const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    dispatch(getPhotosList());
-    // since the api is quite fast we can't see the scrolling effect properly
-    // there for adding plus second of waiting time
-    wait(1000).then(() => {
-      return setRefreshing(false);
-    });
-  }, [dispatch]);
+  const fetchPhotos = useCallback(() => {
+    dispatch(getPhotosList(page));
+  }, [dispatch, page]);
 
   useEffect(() => {
-    dispatch(getPhotosList());
-  }, [dispatch]);
+    fetchPhotos();
+  }, [fetchPhotos]);
 
   const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
     return (
@@ -41,6 +34,15 @@ const Dashboard = (): JSX.Element => {
       </>
     );
   };
+
+  const onRefresh = useCallback(() => {
+    setPage(1);
+    setRefreshing(true);
+    fetchPhotos();
+    wait(1000).then(() => {
+      return setRefreshing(false);
+    });
+  }, [fetchPhotos]);
 
   const renderFlatList = () => (
     <SafeAreaView style={styles.container}>
