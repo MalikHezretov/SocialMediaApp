@@ -1,42 +1,30 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, ListRenderItem, SafeAreaView} from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
+
 import {useSelector, useDispatch} from 'react-redux';
-import CardComponent from '../../components/cardComponent';
-import LikeComponent from '../../components/likeComponent';
-import {IPhotoModel} from '../../models/photoModel';
+
 import {getPhotosList} from '../../redux/actions/getPhotosListAction';
 import {AppState} from '../../redux/reducers';
-import styles from './styles';
-
-const wait = (timeout: number) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-};
+import {wait} from './helper';
+import renderFlatList from './renderFlatlist';
 
 const Dashboard = (): JSX.Element => {
   const dispatch: any = useDispatch();
   const photosList = useSelector(({state}: AppState) => state.photosList);
+  const loading = useSelector(({state}: AppState) => state.loading);
   const [refreshing, setRefreshing] = useState(false);
-  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [momentum, setMomentum] = useState(true);
 
   const fetchPhotos = useCallback(() => {
-    dispatch(getPhotosList(page));
-  }, [dispatch, page]);
+    dispatch(getPhotosList(pageNumber));
+  }, [dispatch, pageNumber]);
 
   useEffect(() => {
     fetchPhotos();
   }, [fetchPhotos]);
 
-  const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
-    return (
-      <>
-        <CardComponent imageUrl={item.urls.regular} />
-        <LikeComponent numberOfLikes={item.likes} />
-      </>
-    );
-  };
-
   const onRefresh = useCallback(() => {
-    setPage(1);
+    setPageNumber(1);
     setRefreshing(true);
     fetchPhotos();
     wait(1000).then(() => {
@@ -44,20 +32,28 @@ const Dashboard = (): JSX.Element => {
     });
   }, [fetchPhotos]);
 
-  const renderFlatList = () => (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={photosList}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-      />
-    </SafeAreaView>
+  const fetchMorePhotos = () => {
+    if (!momentum && !loading) {
+      setPageNumber(pageNumber + 1);
+      fetchPhotos();
+      wait(1000).then(() => {
+        return setMomentum(true);
+      });
+    }
+  };
+
+  const onMomentumScrollBegin = () => setMomentum(false);
+
+  const renderFeed: JSX.Element = renderFlatList(
+    photosList,
+    refreshing,
+    onRefresh,
+    fetchMorePhotos,
+    onMomentumScrollBegin,
+    loading,
   );
 
-  return renderFlatList();
+  return renderFeed;
 };
 
 export default Dashboard;
