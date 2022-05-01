@@ -1,10 +1,9 @@
 import {useCallback, useEffect, useState} from 'react';
-
 import {useSelector, useDispatch} from 'react-redux';
-
+import debounce from 'lodash.debounce';
 import {getPhotosList} from '../../redux/actions/getPhotosListAction';
 import {AppState} from '../../redux/reducers';
-import {wait} from './helper';
+import {DEBOUNCE_WAIT_TIME_MS, wait} from './helper';
 import renderFlatList from './renderFlatlist';
 
 const Dashboard = (): JSX.Element => {
@@ -20,8 +19,10 @@ const Dashboard = (): JSX.Element => {
   }, [dispatch, pageNumber]);
 
   useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
+    if (pageNumber === 1) {
+      fetchPhotos();
+    }
+  }, [fetchPhotos, pageNumber]);
 
   const onRefresh = useCallback(() => {
     setPageNumber(1);
@@ -32,7 +33,7 @@ const Dashboard = (): JSX.Element => {
     });
   }, [fetchPhotos]);
 
-  const fetchMorePhotos = () => {
+  const fetchMorePhotos = debounce(() => {
     if (!momentum && !loading) {
       setPageNumber(pageNumber + 1);
       fetchPhotos();
@@ -40,7 +41,7 @@ const Dashboard = (): JSX.Element => {
         return setMomentum(true);
       });
     }
-  };
+  }, DEBOUNCE_WAIT_TIME_MS);
 
   const onMomentumScrollBegin = () => setMomentum(false);
 

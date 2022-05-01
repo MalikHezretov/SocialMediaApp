@@ -10,8 +10,10 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@types/lodash.debounce": "^4.0.7",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.1",
+    "lodash.debounce": "^4.0.8",
     "react": "17.0.2",
     "react-native": "0.68.1",
     "react-redux": "^8.0.1",

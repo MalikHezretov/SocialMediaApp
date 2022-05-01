@@ -25,7 +25,7 @@ const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
 };
 
 const renderFooter = (loading: boolean): JSX.Element | null => {
-  if (!loading) {
+  if (loading) {
     return null;
   }
 
