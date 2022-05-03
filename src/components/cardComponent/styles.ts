@@ -10,10 +10,11 @@ const styles: Styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingBottom: 0,
+    paddingTop: 8,
   },
   imageStyle: {
-    height: 250,
-    borderRadius: 8,
+    height: 200,
+    borderRadius: 2,
   },
 });
 

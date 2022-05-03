@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import CardComponent from '../../components/cardComponent';
 import LikeComponent from '../../components/likeComponent';
+import TextComponent from '../../components/textComponent';
 import {IPhotoModel} from '../../models/photoModel';
 import {
   INITIAL_NUM_TO_RENDER,
@@ -18,6 +19,7 @@ import styles from './styles';
 const renderItem: ListRenderItem<IPhotoModel> = ({item}): JSX.Element => {
   return (
     <>
+      <TextComponent description={item.description} />
       <CardComponent imageUrl={item.urls.regular} />
       <LikeComponent numberOfLikes={item.likes} />
     </>
