@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders TextComponent correctly 1`] = `
+<View
+  style={
+    Object {
+      "padding": 16,
+      "paddingBottom": 0,
+    }
+  }
+>
+  <Text>
+    test
+  </Text>
+  <Text
+    numberOfLines={1}
+  >
+    description
+  </Text>
+</View>
+`;
+
+exports[`renders TextComponent with empty description 1`] = `
+<View
+  style={
+    Object {
+      "padding": 16,
+      "paddingBottom": 0,
+    }
+  }
+>
+  <Text>
+    Title
+  </Text>
+  <Text
+    numberOfLines={1}
+  >
+    
+  </Text>
+</View>
+`;

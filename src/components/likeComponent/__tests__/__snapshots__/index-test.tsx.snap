@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders LikeComponent correctly 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+      "marginBottom": 16,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../src/common/assets/images/like.png",
+      }
+    }
+    style={
+      Object {
+        "height": 25,
+        "marginLeft": 32,
+        "marginTop": 8,
+        "width": 25,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "fontWeight": "700",
+        "marginLeft": 4,
+        "marginTop": 13,
+      }
+    }
+  >
+    20
+  </Text>
+</View>
+`;

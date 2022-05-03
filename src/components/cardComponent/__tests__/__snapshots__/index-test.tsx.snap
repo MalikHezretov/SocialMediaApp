@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders CardComponent correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+      "padding": 16,
+      "paddingBottom": 0,
+      "paddingTop": 8,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "https://picsum.photos/id/237/200/300",
+      }
+    }
+    style={
+      Object {
+        "borderRadius": 2,
+        "height": 200,
+      }
+    }
+  />
+</View>
+`;
