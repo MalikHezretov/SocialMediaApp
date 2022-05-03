@@ -1,4 +1,8 @@
-import {GET_PHOTOS_LIST_LOADING, GET_PHOTOS_LIST_SUCCESS} from './types';
+import {
+  GET_PHOTOS_LIST_FAIL,
+  GET_PHOTOS_LIST_LOADING,
+  GET_PHOTOS_LIST_SUCCESS,
+} from './types';
 import axios from 'axios';
 import {Dispatch} from 'redux';
 
@@ -30,7 +34,7 @@ export const getPhotosList =
       });
     } catch (e) {
       dispatch({
-        type: GET_PHOTOS_LIST_SUCCESS,
+        type: GET_PHOTOS_LIST_FAIL,
         error: e,
       });
     }
