@@ -55,7 +55,7 @@ const renderFlatList = (
       initialNumToRender={INITIAL_NUM_TO_RENDER}
       ListFooterComponent={renderFooter(loading)}
       onMomentumScrollBegin={onMomentumScrollBegin}
-      bounces={false}
+      // bounces={false}
     />
   </SafeAreaView>
 );
